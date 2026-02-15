@@ -1,499 +1,112 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Registration</title>
-  
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    /* ========== Body & Layout ========== */
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-      animation: gradientShift 8s ease infinite;
-      background-size: 400% 400%;
-    }
-
-    @keyframes gradientShift {
-      0% { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-      50% { background: linear-gradient(135deg, #764ba2 0%, #667eea 100%); }
-      100% { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-    }
-
-    /* ========== Card Container ========== */
-    .card {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      padding: 45px;
-      border-radius: 20px;
-      width: 100%;
-      max-width: 480px;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      animation: slideUp 0.6s ease-out;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
-      background-size: 200% 100%;
-      animation: shimmer 3s ease infinite;
-    }
-
-    @keyframes shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* ========== Header Section ========== */
-    .header {
-      text-align: center;
-      margin-bottom: 35px;
-    }
-
-    .header-icon {
-      font-size: 50px;
-      margin-bottom: 15px;
-      display: block;
-      animation: bounce 2s ease infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    /* ========== Heading ========== */
-    h2 {
-      margin: 0 0 8px 0;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-size: 32px;
-      font-weight: 700;
-    }
-
-    .subtitle {
-      color: #888;
-      font-size: 13px;
-      font-weight: 400;
-      letter-spacing: 0.5px;
-    }
-
-    /* ========== Form Group ========== */
-    .form-group {
-      margin-bottom: 20px;
-      animation: fadeIn 0.5s ease-out forwards;
-      opacity: 0;
-    }
-
-    .form-group:nth-child(1) { animation-delay: 0.1s; }
-    .form-group:nth-child(2) { animation-delay: 0.2s; }
-    .form-group:nth-child(3) { animation-delay: 0.3s; }
-    .form-group:nth-child(4) { animation-delay: 0.4s; }
-    .form-group:nth-child(5) { animation-delay: 0.5s; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ========== Form Labels ========== */
-    label {
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      color: #333;
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    label::before {
-      content: '';
-      display: inline-block;
-      width: 5px;
-      height: 5px;
-      background: #667eea;
-      border-radius: 50%;
-      margin-right: 8px;
-    }
-
-    /* ========== Form Inputs ========== */
-    input, textarea {
-      width: 100%;
-      padding: 14px 16px;
-      border-radius: 12px;
-      border: 2px solid #e5e7eb;
-      font-size: 14px;
-      font-family: 'Poppins', sans-serif;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      background: #f9fafb;
-    }
-
-    input:hover, textarea:hover {
-      border-color: #d1d5db;
-      background: #ffffff;
-    }
-
-    input:focus, textarea:focus {
-      outline: none;
-      border-color: #667eea;
-      background: #ffffff;
-      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
-      transform: translateY(-2px);
-    }
-
-    input.error, textarea.error {
-      border-color: #f44336;
-      background: #ffebee;
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 100px;
-      font-size: 13px;
-    }
-
-    /* ========== Submit Button ========== */
-    button {
-      width: 100%;
-      padding: 16px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      margin-top: 25px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-    }
-
-    button::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
-      transform: translate(-50%, -50%);
-      transition: width 0.6s, height 0.6s;
-    }
-
-    button:hover:not(:disabled)::before {
-      width: 300px;
-      height: 300px;
-    }
-
-    button:hover:not(:disabled) {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
-    }
-
-    button:active:not(:disabled) {
-      transform: translateY(-1px);
-    }
-
-    button:disabled {
-      background: #c4b5fd;
-      cursor: not-allowed;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    /* ========== Loading Spinner ========== */
-    .spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 3px solid rgba(255, 255, 255, 0.3);
-      border-top: 3px solid white;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-right: 10px;
-      vertical-align: middle;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* ========== Status Messages ========== */
-    #status {
-      margin-top: 20px;
-      padding: 16px;
-      text-align: center;
-      font-weight: 600;
-      min-height: 20px;
-      border-radius: 12px;
-      display: none;
-      animation: slideDown 0.4s ease-out;
-    }
-
-    #status.show {
-      display: block;
-    }
-
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .success {
-      color: #065f46;
-      background: linear-gradient(135deg, #d1fae5, #a7f3d0);
-      border: 1px solid #6ee7b7;
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.15);
-    }
-
-    .error {
-      color: #7f1d1d;
-      background: linear-gradient(135deg, #fee2e2, #fecaca);
-      border: 1px solid #fca5a5;
-      box-shadow: 0 4px 15px rgba(244, 63, 94, 0.15);
-    }
-
-    .success a {
-      color: #059669;
-      text-decoration: none;
-      font-weight: bold;
-      display: inline-block;
-      margin-top: 10px;
-      padding: 8px 16px;
-      background: rgba(255, 255, 255, 0.5);
-      border-radius: 8px;
-      transition: all 0.3s;
-    }
-
-    .success a:hover {
-      background: rgba(255, 255, 255, 0.8);
-      transform: scale(1.05);
-    }
-
-    /* ========== Responsive ========== */
-    @media (max-width: 480px) {
-      .card {
-        padding: 30px 20px;
-      }
-
-      h2 {
-        font-size: 26px;
-      }
-
-      button {
-        padding: 14px;
-        font-size: 14px;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <div class="card">
-    <div class="header">
-      <span class="header-icon">📝</span>
-      <h2>Student Registration</h2>
-      <p class="subtitle">Fill in your details to get started</p>
-    </div>
-
-    <form id="form" novalidate>
-      <!-- First Name Field -->
-      <div class="form-group">
-        <label for="name">First Name</label>
-        <input id="name" name="name" placeholder="Enter your first name" required>
-      </div>
-
-      <!-- Last Name Field -->
-      <div class="form-group">
-        <label for="lastName">Last Name</label>
-        <input id="lastName" name="lastName" placeholder="Enter your last name" required>
-      </div>
-
-      <!-- Email Field -->
-      <div class="form-group">
-        <label for="email">Email Address</label>
-        <input id="email" type="email" name="email" placeholder="your.email@example.com" required>
-      </div>
-
-      <!-- Roll Number Field -->
-      <div class="form-group">
-        <label for="rollNo">Roll Number</label>
-        <input id="rollNo" name="rollNo" placeholder="e.g., STU123456" required>
-      </div>
-
-      <!-- Message Field -->
-      <div class="form-group">
-        <label for="message">Message</label>
-        <textarea id="message" name="message" placeholder="Enter your message or additional notes" required></textarea>
-      </div>
-
-      <!-- Submit Button -->
-      <button id="btn" type="submit">Submit & Generate PDF</button>
-    </form>
-
-    <!-- Status Message -->
-    <div id="status"></div>
-  </div>
-
-  <script>
-    // ========== Utility Functions ==========
-
-    // Sanitize input to prevent XSS attacks
-    function sanitizeInput(str) {
-      const div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
-    }
-
-    // Validate email format
-    function isValidEmail(email) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
-    // Validate text fields (minimum 2 characters)
-    function isValidText(text) {
-      return text.trim().length >= 2;
-    }
-
-    // ========== Configuration ==========
-
-    // 🔁 REPLACE with your deployed Google Apps Script Web App URL
-    const URL = "https://script.google.com/macros/s/AKfycbzWTt7MLMxGgshRY100IH6D2eI5phk8y-s0BEI5tns3zrMjpRRUIKJhSgnpdmqcmWr-/exec";
-
-    // ========== DOM Elements ==========
-    const form = document.getElementById("form");
-    const status = document.getElementById("status");
-    const btn = document.getElementById("btn");
-
-    // ========== Event Listeners ==========
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      // Reset status
-      status.textContent = "";
-      status.className = "";
-      status.classList.remove("show");
-
-      // ========== Collect & Validate Form Data ==========
-      const formData = new FormData(form);
-      const name = sanitizeInput(formData.get("name")).trim();
-      const lastName = sanitizeInput(formData.get("lastName")).trim();
-      const email = sanitizeInput(formData.get("email")).trim();
-      const rollNo = sanitizeInput(formData.get("rollNo")).trim();
-      const message = sanitizeInput(formData.get("message")).trim();
-
-      // Client-side validation
-      if (!isValidText(name)) {
-        status.classList.add("error", "show");
-        status.textContent = "✗ First name must be at least 2 characters.";
-        return;
-      }
-      if (!isValidText(lastName)) {
-        status.classList.add("error", "show");
-        status.textContent = "✗ Last name must be at least 2 characters.";
-        return;
-      }
-      if (!isValidEmail(email)) {
-        status.classList.add("error", "show");
-        status.textContent = "✗ Please enter a valid email address.";
-        return;
-      }
-      if (!isValidText(rollNo)) {
-        status.classList.add("error", "show");
-        status.textContent = "✗ Roll number must be at least 2 characters.";
-        return;
-      }
-      if (!isValidText(message)) {
-        status.classList.add("error", "show");
-        status.textContent = "✗ Message must be at least 2 characters.";
-        return;
-      }
-
-      // ========== Submit Data ==========
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span>Submitting...';
-
-      try {
-        const res = await fetch(URL, {
-          method: "POST",
-          body: new FormData(form)
-        });
-
-        const data = await res.json();
-
-        if (data.status === "success") {
-          status.classList.add("success", "show");
-          status.innerHTML = `
-            ✓ Saved Successfully!
-            <a href="${data.link}" target="_blank">📥 Download PDF</a>
-          `;
-          
-          // Reset form after 1 second
-          setTimeout(() => form.reset(), 1000);
-        } else {
-          status.classList.add("error", "show");
-          status.textContent = "✗ " + (data.message || "Submission failed. Please try again.");
-        }
-      } catch (err) {
-        status.classList.add("error", "show");
-        status.textContent = "✗ Network error. Please check your connection and try again.";
-        console.error("Submission error:", err);
-      }
-
-      // ========== Re-enable Submit Button ==========
-      btn.disabled = false;
-      btn.innerHTML = "Submit & Generate PDF";
+function doPost(e) {
+  try {
+
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    const d = e.parameter;
+
+    const name = d.name || "";
+    const lastName = d.lastName || "";
+    const email = d.email || "";
+    const rollNo = d.rollNo || "";
+    const message = d.message || "";
+    const date = new Date().toLocaleString();
+
+    // ===== TEMPLATE ID =====
+    const TEMPLATE_ID = "1-SgZ4dG2iCMfc1OE_-_QvKS94oZT1BCn0BXO6jX_KBM";
+
+    // ===== COPY TEMPLATE =====
+    const copy = DriveApp.getFileById(TEMPLATE_ID)
+      .makeCopy(name + "_Student_Info");
+
+    const doc = DocumentApp.openById(copy.getId());
+    const body = doc.getBody();
+
+    // ===== REPLACE PLACEHOLDERS =====
+    body.replaceText("{{name}}", name);
+    body.replaceText("{{lastName}}", lastName);
+    body.replaceText("{{email}}", email);
+    body.replaceText("{{rollNo}}", rollNo);
+    body.replaceText("{{message}}", message);
+    body.replaceText("{{date}}", date);
+
+    doc.saveAndClose();
+
+    const file = DriveApp.getFileById(doc.getId());
+    const link = file.getUrl();
+
+    // ===== SAVE DATA TO SHEET =====
+    sheet.appendRow([
+      new Date(),
+      name,
+      lastName,
+      email,
+      rollNo,
+      message,
+      link
+    ]);
+
+    // ===== SEND EMAIL =====
+    MailApp.sendEmail({
+      to: email,
+      subject: "Your Student Information Submission",
+      htmlBody: `
+        <div style="font-family:Arial,sans-serif; padding:20px;">
+          <h2 style="color:#4f46e5;">🎓 Student Information Submitted</h2>
+
+          <p>Hello <strong>${name} ${lastName}</strong>,</p>
+
+          <p>Thank you for submitting your information. Here are your details:</p>
+
+          <table style="border-collapse:collapse; width:100%; max-width:500px;">
+            <tr><td><b>First Name:</b></td><td>${name}</td></tr>
+            <tr><td><b>Last Name:</b></td><td>${lastName}</td></tr>
+            <tr><td><b>Email:</b></td><td>${email}</td></tr>
+            <tr><td><b>Roll No:</b></td><td>${rollNo}</td></tr>
+            <tr><td><b>Message:</b></td><td>${message}</td></tr>
+          </table>
+
+          <br>
+          <p>You can open your editable document here:</p>
+
+          <a href="${link}"
+            style="background:#4f46e5;color:white;padding:10px 15px;
+            text-decoration:none;border-radius:6px;display:inline-block;">
+            Open Google Doc
+          </a>
+
+          <p style="margin-top:20px;font-size:12px;color:#666;">
+            PDF copy is attached for download.
+          </p>
+        </div>
+      `,
+      attachments: [file.getAs(MimeType.PDF)]
     });
-  </script>
-</body>
-</html>
+
+    // ===== RESPONSE =====
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        status: "success",
+        link: link
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+
+    return ContentService
+      .createTextOutput(JSON.stringify({
+        status: "error",
+        message: err.message
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+
+// ===== OPTIONAL EMAIL PERMISSION TEST =====
+function testEmailPermission() {
+  MailApp.sendEmail({
+    to: "yourgmail@gmail.com",
+    subject: "Permission Test",
+    body: "Testing email permission"
+  });
+}
